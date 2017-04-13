@@ -1,6 +1,6 @@
 # goRex [![GoDoc](https://godoc.org/github.com/amller/goRex?status.svg)](https://godoc.org/github.com/amller/goRex)
 GoRex is a tool which allows to convert textual data into JSON format.  
-Note that goRex was build with the idea of converting logs.
+Note that goRex was build with the idea in mind of converting logs.
 
 The file containing the regular expression is set with the flag `regexp`. The default value is ".regexp".  
 
@@ -20,7 +20,7 @@ For more information about capture groups read https://golang.org/pkg/regexp/syn
 \[(?P<Tool>[a-zA-Z0-9]+)\]\[(?P<Date>[0-3][0-9]\.[01][0-9]\.[0-9][0-9]:[0-2][0-9]:[0-6][0-9])\] (?P<MessageType>[a-zA-Z]*): (?P<Message>.*)
 ```
 
-input:
+os.Stdin:
 ```
 [Tool1][07.04.12:12:25] Warning: A warning message!
 [Tool2][07.04.12:12:30] Error: An error message!
@@ -35,7 +35,7 @@ input:
 [Tool1][07.04.12:18:44] Info: An info message!
 ```
 
-output:
+os.Stdout:
 ```json
 [
 	{
