@@ -1,6 +1,6 @@
 // Command goRex provides functionality to break a log down into a JSON structured data format,
 // which is described by regular expressions.
-// The structure of the JSON is determined by the capture groups contained in the regular expression.
+// The structure of the JSON is determined by the capture groups used in the regular expression.
 // Input will be read from os.Stdin.
 // Output will be written to os.Stdout.
 package main
@@ -58,7 +58,7 @@ func GetRegexp(r io.Reader) (*regexp.Regexp, error) {
 
 // ConvertLog reads the content from r and splits the content based on the caputure groups of regexp
 // and writes the result into w.
-// Note that every line is interpreted for itself.
+// Note that every line is interpreted for itself, which leads to no support for multiline messages.
 func ConvertLog(w io.Writer, r io.Reader, regexpr *regexp.Regexp) error {
 	dataSets, err := ExtractDataSets(r, regexpr)
 	if err != nil {
@@ -78,7 +78,7 @@ func ConvertLog(w io.Writer, r io.Reader, regexpr *regexp.Regexp) error {
 }
 
 // ExtractDataSets reads the content of r and splits the content into maps for every line based on the
-// capute groups of regexpr.
+// capture groups of regexpr.
 func ExtractDataSets(r io.Reader, regexpr *regexp.Regexp) ([]map[string]string, error) {
 	b, err := ioutil.ReadAll(r)
 	if err != nil {
