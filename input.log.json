@@ -1,0 +1,62 @@
+[
+	{
+		"Date": "07.04.12:12:25",
+		"Message": "A warning message!",
+		"MessageType": "Warning",
+		"Tool": "Tool1"
+	},
+	{
+		"Date": "07.04.12:12:30",
+		"Message": "An error message!",
+		"MessageType": "Error",
+		"Tool": "Tool2"
+	},
+	{
+		"Date": "07.04.12:13:01",
+		"Message": "An info message!",
+		"MessageType": "Info",
+		"Tool": "Tool3"
+	},
+	{
+		"Date": "07.04.12:16:30",
+		"Message": "An error message!",
+		"MessageType": "Error",
+		"Tool": "Tool2"
+	},
+	{
+		"Date": "07.04.12:16:30",
+		"Message": "A warning message!",
+		"MessageType": "Warning",
+		"Tool": "Tool2"
+	},
+	{
+		"Date": "07.04.12:16:30",
+		"Message": "A warning message!",
+		"MessageType": "Warning",
+		"Tool": "Tool2"
+	},
+	{
+		"Date": "07.04.12:16:30",
+		"Message": "A warning message!",
+		"MessageType": "Warning",
+		"Tool": "Tool2"
+	},
+	{
+		"Date": "07.04.12:16:44",
+		"Message": "An info message!",
+		"MessageType": "Info",
+		"Tool": "Tool3"
+	},
+	{
+		"Date": "07.04.12:18:30",
+		"Message": "An update message!",
+		"MessageType": "Update",
+		"Tool": "Tool3"
+	},
+	{
+		"Date": "07.04.12:18:34",
+		"Message": "A warning message!",
+		"MessageType": "Warning",
+		"Tool": "Tool3"
+	}
+]
