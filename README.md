@@ -2,9 +2,8 @@
 GoRex is a tool which allows to convert textual data into JSON format.  
 Note that goRex was build with the idea in mind of converting logs.
 
-The file containing the regular expression is set with the flag `regexp`. The default value is ".regexp".  
-
 The data is read from os.Stdin and written to os.Stdout.  
+The file containing the regular expression is set with the flag `regexp`. The default value is ".regexp".  
 
 The conversion is based on a regular expression as following:  
 Every line will be evaluated for itself, creating a new JSON object.  
