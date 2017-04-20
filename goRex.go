@@ -86,7 +86,7 @@ func ExtractDataSets(r io.Reader, regexpr *regexp.Regexp) ([]map[string]string, 
 	}
 
 	var inputLines []string
-	// This is not guarenteed to cut of proper newlines.
+	// This is not guarenteed to cut off proper newlines.
 	// If we run on a proper OS and got Wintrash logs, we might end up with \r
 	// at the end of the lines.
 	if strings.ToLower(runtime.GOOS) != "windows" {
