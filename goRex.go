@@ -6,16 +6,20 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
+	"errors"
 	"flag"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
-	"runtime"
 	"strings"
 )
+
+// ErrNoMatch describes the failure of matching on a regular expression.
+var ErrNoMatch = errors.New("Couldn't match line on regular expression")
 
 func main() {
 	regexpFlag := flag.String("regexp", ".regexp", "File containing the regular expression")
@@ -56,56 +60,45 @@ func GetRegexp(r io.Reader) (*regexp.Regexp, error) {
 	return regexpr, nil
 }
 
-// ConvertLog reads the content from r and splits the content based on the caputure groups of regexp
-// and writes the result into w.
+// ConvertLog reads from r, splits the read data based on the caputure groups of regexpr and writes the result in JSON format into w.
 // Note that every line is interpreted for itself, which leads to no support for multiline messages.
 func ConvertLog(w io.Writer, r io.Reader, regexpr *regexp.Regexp) error {
-	dataSets, err := ExtractDataSets(r, regexpr)
-	if err != nil {
-		return err
-	}
-
-	b, err := json.MarshalIndent(dataSets, "", "\t")
-	if err != nil {
-		return err
-	}
-
-	_, err = io.WriteString(w, string(b))
-	if err != nil {
-		return err
+	scanner := bufio.NewScanner(r)
+	for scanner.Scan() {
+		if err := scanner.Err(); err != nil {
+			return err
+		}
+		dataSet, err := ExtractDataSet(scanner.Text(), regexpr)
+		if err != nil {
+			_, err = io.WriteString(w, err.Error()+"\n")
+			if err != nil {
+				return err
+			}
+		} else {
+			b, err := json.MarshalIndent(dataSet, "", "\t")
+			if err != nil {
+				return err
+			}
+			_, err = io.WriteString(w, string(b)+"\n")
+			if err != nil {
+				return err
+			}
+		}
 	}
 	return nil
 }
 
-// ExtractDataSets reads the content of r and splits the content into maps for every line based on the
-// capture groups of regexpr.
-func ExtractDataSets(r io.Reader, regexpr *regexp.Regexp) ([]map[string]string, error) {
-	b, err := ioutil.ReadAll(r)
-	if err != nil {
-		return nil, err
+// ExtractDataSet splits s into a map based on the capture groups of regexpr and returns the map.
+func ExtractDataSet(s string, regexpr *regexp.Regexp) (map[string]string, error) {
+	dataSet := make(map[string]string)
+	if !regexpr.MatchString(s) {
+		return nil, ErrNoMatch
 	}
-
-	var inputLines []string
-	// This is not guarenteed to cut off proper newlines.
-	// If we run on a proper OS and got Wintrash logs, we might end up with \r
-	// at the end of the lines.
-	if strings.ToLower(runtime.GOOS) != "windows" {
-		inputLines = strings.Split(string(b), "\n")
-	} else {
-		inputLines = strings.Split(string(b), "\r\n")
-	}
-	dataSets := make([]map[string]string, len(inputLines)-1)
-	for i, line := range inputLines {
-		if line != "" {
-			dataSet := make(map[string]string)
-			matches := regexpr.FindStringSubmatch(line)
-			for j, name := range regexpr.SubexpNames() {
-				if name != "" {
-					dataSet[name] = matches[j]
-				}
-			}
-			dataSets[i] = dataSet
+	matches := regexpr.FindStringSubmatch(s)
+	for j, name := range regexpr.SubexpNames() {
+		if name != "" {
+			dataSet[name] = matches[j]
 		}
 	}
-	return dataSets, nil
+	return dataSet, nil
 }
