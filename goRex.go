@@ -1,8 +1,9 @@
 // Command goRex provides functionality to break a log down into a JSON structured data format,
 // which is described by regular expressions.
 // The structure of the JSON is determined by the capture groups used in the regular expression.
-// Input will be read from os.Stdin.
+// Input will be read from os.Stdin. Note, that every line will be interpreted for itself.
 // Output will be written to os.Stdout.
+// The file containing the regular expression is set with the "regexp" flag. Default: ".regexp"
 package main
 
 import (
