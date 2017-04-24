@@ -70,7 +70,7 @@ func ConvertLog(w io.Writer, r io.Reader, regexpr *regexp.Regexp) error {
 		}
 		dataSet, err := ExtractDataSet(scanner.Text(), regexpr)
 		if err != nil {
-			_, err = io.WriteString(w, err.Error()+"\n")
+			_, err = w.Write([]byte(err.Error() + "\n"))
 			if err != nil {
 				return err
 			}
@@ -79,7 +79,7 @@ func ConvertLog(w io.Writer, r io.Reader, regexpr *regexp.Regexp) error {
 			if err != nil {
 				return err
 			}
-			_, err = io.WriteString(w, string(b)+"\n")
+			_, err = w.Write([]byte(string(b) + "\n"))
 			if err != nil {
 				return err
 			}
