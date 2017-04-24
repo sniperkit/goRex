@@ -7,6 +7,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -15,7 +16,6 @@ import (
 	"log"
 	"os"
 	"regexp"
-	"strings"
 )
 
 // ErrNoMatch describes the failure of matching on a regular expression.
@@ -43,17 +43,17 @@ func main() {
 
 // GetRegexp reads content from r and tries to interpret it as a regular expression and returns it.
 func GetRegexp(r io.Reader) (*regexp.Regexp, error) {
-	in, err := ioutil.ReadAll(r)
+	b, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}
-	str := string(in)
-	if strings.HasSuffix(str, "\r\n") {
-		str = string(in[:len(in)-2])
-	} else if strings.HasSuffix(str, "\n") {
-		str = string(in[:len(in)-1])
+	var bs []byte
+	if bytes.HasSuffix(b, []byte("\r\n")) {
+		bs = b[:len(b)-2]
+	} else if bytes.HasSuffix(b, []byte("\n")) {
+		bs = b[:len(b)-1]
 	}
-	regexpr, err := regexp.Compile(str)
+	regexpr, err := regexp.Compile(string(bs))
 	if err != nil {
 		return nil, err
 	}
