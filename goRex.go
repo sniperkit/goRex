@@ -53,6 +53,8 @@ func GetRegexp(r io.Reader) (*regexp.Regexp, error) {
 		bs = b[:len(b)-2]
 	} else if bytes.HasSuffix(b, []byte("\n")) {
 		bs = b[:len(b)-1]
+	} else {
+		bs = b
 	}
 	regexpr, err := regexp.Compile(string(bs))
 	if err != nil {
