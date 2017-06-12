@@ -1,0 +1,15 @@
+sudo: false
+
+language: go
+
+go:
+    - master
+    - 1.x
+
+script:
+    - go test -v -coverprofile=coverage.out -covermode=count
+    - go build
+
+after_success:
+    - go tool cover -func=coverage.out
+    - cat coverage.out

@@ -1,4 +1,4 @@
-# goRex [![GoDoc](https://godoc.org/github.com/amller/goRex?status.svg)](https://godoc.org/github.com/amller/goRex)
+# goRex [![Build Status](https://travis-ci.org/amller/goRex.svg?branch=master)](https://travis-ci.org/amller/goRex) [![GoDoc](https://godoc.org/github.com/amller/goRex?status.svg)](https://godoc.org/github.com/amller/goRex)
 GoRex is a tool which allows to convert textual data into JSON format.  
 Note that goRex was build with the idea in mind of converting logs.
 
